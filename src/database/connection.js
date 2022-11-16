@@ -18,4 +18,4 @@ pool.getConnection((error) =>{
     console.log('Successfully connected to the database')
 });
 
-module.exports = pool();
+module.exports = pool;
