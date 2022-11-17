@@ -7,7 +7,7 @@ exports.createNewUser = async (req, res, next) => {
     try {
         const {firstname, lastname, email, password} = req.body;
         //check if email already exists
-        const [row] = await database.query(`SELECT * FROM users WHERE LOWER (email) = LOWER(${db.escape(req.body.email)});`
+        const [row] = await database.query(`SELECT * FROM users WHERE LOWER (email) = LOWER(${database.escape(req.body.email)});`
         );
         
         if(row.length > 0){
