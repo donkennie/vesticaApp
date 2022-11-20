@@ -7,8 +7,7 @@ exports.createNewUser = async (req, res, next) => {
     try {
         const {firstname, lastname, email, password} = req.body;
         //check if email already exists
-        const [row] = await database.query(`SELECT * FROM users WHERE LOWER (email) = LOWER(${database.escape(req.body.email)});`
-        );
+        const [row] = await database.query(`SELECT * FROM users WHERE LOWER (email) = LOWER(${database.escape(req.body.email)});`);
         
         if(row.length > 0){
             return res.status(409).json({
@@ -18,9 +17,10 @@ exports.createNewUser = async (req, res, next) => {
         }
         //hash password
         const hashedPassword = await passwordHash(password);
-        const user = await database.query(`INSERT INTO users (firstname, lastname, email, password) 
-                                        VALUES(?,?,?,?)' [firstname, lastname, email, password]`
-                                        );
+        const user = await database.query(
+            `INSERT INTO users (firstname, lastname, email, password) 
+            VALUES(?,?,?,?) ` , [firstname, lastname, email, hashedPassword]
+            );
 
         let data = {
             id: user[0].insertId,
