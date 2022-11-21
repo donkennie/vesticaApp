@@ -3,7 +3,7 @@ const { data } = require("jquery");
 const database = require("../database/connection")
 const response = require("../utils/responseApi")
 
-exports.CreateNewNote = async (req, res, next) => {
+exports.createNewNote = async (req, res, next) => {
     try {
         const {
             title,
