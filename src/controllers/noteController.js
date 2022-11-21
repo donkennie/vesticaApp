@@ -30,3 +30,14 @@ exports.CreateNewNote = async (req, res, next) => {
         next(error)
     }
 };
+
+exports.editNote = async (req, res, next) => {
+    try {
+        const {
+            title,
+            description
+        } = req.body;
+    } catch (error) {
+        
+    }
+}
