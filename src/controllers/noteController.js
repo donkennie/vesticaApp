@@ -74,6 +74,7 @@ exports.getAllNotes = async (req, res, next) => {
     try {
         const notes = await database.query(`SELECT * FROM notes`);
         return response(res, 200, "All notes", notes[0]);
+        
     } catch (error) {
         next(error);
     }
