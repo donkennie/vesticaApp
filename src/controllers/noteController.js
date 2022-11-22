@@ -1,5 +1,3 @@
-const { response } = require("express");
-const { data } = require("jquery");
 const database = require("../database/connection")
 const response = require("../utils/responseApi")
 
