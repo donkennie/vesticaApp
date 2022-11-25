@@ -71,8 +71,18 @@ exports.editNote = async (req, res, next) => {
 
 exports.getAllNotes = async (req, res, next) => {
     try {
+        const {search} = req.query;
+
+        if (search){
+           notes = await database.query(`SELECT * FROM notes WHERE title REGEXP ?`, [search] ); 
+          return response(res, 200, "All notes", notes[0]);
+        }
+
+        else
+        {
         const notes = await database.query(`SELECT * FROM notes`);
         return response(res, 200, "All notes", notes[0]);
+        }
 
     } catch (error) {
         next(error);
