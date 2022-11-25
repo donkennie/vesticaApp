@@ -30,15 +30,12 @@ const checkForUserValidation = async (req, res, next) => {
 const validateAdmin = (req, res, next) => {
     try {
         if(req.user.role !== 'Admin'){
-            throw new applicationError(
-                "You are not authorized to perform this",
-                401,
-            );
+            return res.status(401).json({ message: 'You are not authorized to perform this...' });
         }
 
         next();
     } catch (error) {
-        next(e);
+        next(error);
     }
 };
 

@@ -11,8 +11,8 @@ exports.createNewNote = async (req, res, next) => {
         const {id} = req.user;
 
         const createNote = await database.query(
-            `INSERT INTO notes (title, description) VALUES(?,?)`, 
-            [title, description]
+            `INSERT INTO notes (title, description, user_id) VALUES(?,?,?)`, 
+            [title, description, id]
         );
 
         let data = {
@@ -37,7 +37,9 @@ exports.editNote = async (req, res, next) => {
             description
         } = req.body;
 
-        const updateNote = await database.query(`UPDATE notes SET title= ?,  description = ? WHERE id = ? `, [notes.title, notes.description, id],
+        const {id} = req.params;
+
+        const updateNote = await database.query(`UPDATE notes SET title= ?,  description = ? WHERE id = ? `, [title, description, id],
         (err, res) => { 
             if (err) { 
               console.log("error: ", err); 
@@ -79,21 +81,17 @@ exports.getAllNotes = async (req, res, next) => {
 
 exports.getNoteById = async (req, res, next) => {
     try {
-        const {id} = req.params.id;
+        const {id} = req.params;
 
         const note = await database.query(`SELECT * FROM  notes WHERE id = ?`, [id])
-        if (row.length === 0) {
+        if (note.length === 0) {
             return res.status(404).json({
               status: 404,
               message: 'Grant not found',
             });
         }
 
-        let data = {
-            id: note[0].id
-        }
-
-        return response(res, 201, "Data fetched successfully", data);
+        return response(res, 201, "Data fetched successfully", note[0]);
 
     } catch (error) {
         next(error)
@@ -103,21 +101,17 @@ exports.getNoteById = async (req, res, next) => {
 
 exports.deleteNote = async (req, res, next) => {
     try {
-        const {id} = req.params.id;
+        const {id} = req.params;
 
         const note = await database.query(`DELETE FROM notes WHERE id = ?`, [id])
-        if (row.length === 0) {
+        if (note.length === 0) {
             return res.status(404).json({
               status: 404,
               message: 'Grant not found',
             });
         }
-
-        let deletedNote = {
-            id: note[0].insertId
-        } 
         
-        return response(res, 201, "Deleted successfully", deletedNote);
+        return response(res, 201, "Deleted successfully", note[0]);
     } catch (error) {
         next(error)
     }
