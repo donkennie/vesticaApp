@@ -17,7 +17,8 @@ const pool = mysql.createConnection(
         password: "Owooluwa@123",
         database: "vestica_app",
         port: 3306,
-        multipleStatements: true
+        multipleStatements: true,
+        socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
     }
 ).promise()
 
